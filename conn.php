@@ -1,19 +1,20 @@
 <?php
 class ConnectDb {
-    // Hold the class instance.
+
     private static $instance = null;
     private $conn;
 
     private $host = 'localhost';
-    private $user = '';
+    private $user = 'root';
     private $pass = '';
-    private $name = '';
+    private $name = 'projekt';
 
     private function __construct()
     {
-        $this->conn = new PDO("mysql:host={$this->host};
-    dbname={$this->name}", $this->user,$this->pass,
-            array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
+		$this->conn = new mysqli(	$this->host,
+									$this->user,
+									$this->pass,
+									$this->name);
     }
 
     public static function getInstance()
@@ -31,3 +32,10 @@ class ConnectDb {
         return $this->conn;
     }
 }
+
+$conn = ConnectDb::getInstance();
+$test = $conn->getConnection();
+$sql_query = "SELECT * FROM quotes";
+$result = $test->query($sql_query)->fetch_row();
+//$selc = $conn.getConnection("SELECT author FROM quotes WHERE id=1");
+var_dump($result);
